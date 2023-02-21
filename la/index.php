@@ -53,7 +53,7 @@ $sort_by = $row["sort_by"];
 switch($sort_order){	
 	case'1': $sql_sort = "i.modified_date DESC"; $sort_txt = "Date Last Modified "; break;	
 	case'4': $sql_sort = "i.sequence ASC"; $sort_txt = " Manual Sort";  break;	
-	default: $sql_sort = "i.sequence ASC"; break;		
+	default: $sql_sort = "i.id ASC"; break;		
 }
 
 $sql = "SELECT * FROM pr_items i WHERE 1 = 1 AND i.status = '1' AND i.status_la = '1' ORDER BY ".$sql_sort;
@@ -103,7 +103,20 @@ $template->url_la2 = $row['url_la'];
 $template->image_la2 = $row['image_la'];
 $template->subject_la2 = $row['subject_la'];
 
-$sql = "SELECT * FROM service_items i WHERE 1 = 1 AND i.status = '1' AND i.status_la = '1' AND i.parent_id = '1' ORDER BY i.sequence ASC";
+$sql = "SELECT * FROM service_items i WHERE 1=1 ";
+$stmt = $db->Prepare($sql);
+$row = $db->getRow($stmt);
+$sort_order = $row["sort_order"];
+$sequence = $row["sequence"];
+$sort_by = $row["sort_by"];
+
+switch($sort_order){	
+	case'1': $sql_sort = "i.modified_date DESC"; $sort_txt = "Date Last Modified "; break;	
+	case'4': $sql_sort = "i.sequence ASC"; $sort_txt = " Manual Sort";  break;	
+	default: $sql_sort = "i.sequence ASC"; break;		
+}
+
+$sql = "SELECT * FROM service_items i WHERE 1 = 1 AND i.status = '1' AND i.status_la = '1' AND i.parent_id = '1' ORDER BY ".$sql_sort;
 $stmt = $db->Prepare($sql);
 $rs = $db->Execute($stmt);
 $serviceList1 = $rs->GetAssoc();
@@ -111,7 +124,7 @@ $serviceListCount1 = $rs->maxRecordCount();
 $template->serviceList1 = $serviceList1;
 $template->serviceListCount1 = $serviceListCount1;
 
-$sql = "SELECT * FROM service_items i WHERE 1 = 1 AND i.status = '1' AND i.status_la = '1' AND i.parent_id = '2' ORDER BY i.sequence ASC";
+$sql = "SELECT * FROM service_items i WHERE 1 = 1 AND i.status = '1' AND i.status_la = '1' AND i.parent_id = '2' ORDER BY ".$sql_sort;
 $stmt = $db->Prepare($sql);
 $rs = $db->Execute($stmt);
 $serviceList2 = $rs->GetAssoc();
@@ -119,7 +132,7 @@ $serviceListCount2 = $rs->maxRecordCount();
 $template->serviceList2 = $serviceList2;
 $template->serviceListCount2 = $serviceListCount2;
 
-$sql = "SELECT * FROM service_items i WHERE 1 = 1 AND i.status = '1' AND i.status_la = '1' AND i.parent_id = '3' ORDER BY i.sequence ASC";
+$sql = "SELECT * FROM service_items i WHERE 1 = 1 AND i.status = '1' AND i.status_la = '1' AND i.parent_id = '3' ORDER BY ".$sql_sort;
 $stmt = $db->Prepare($sql);
 $rs = $db->Execute($stmt);
 $serviceList3 = $rs->GetAssoc();
