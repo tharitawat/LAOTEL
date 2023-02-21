@@ -1,4 +1,5 @@
 <?php include "header.php" ?>
+.....
 
 <div class="outer-box" style="padding: 0">
 
